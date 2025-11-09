@@ -37,6 +37,12 @@ class WeatherViewModel: ObservableObject {
         
         // --- 実際のリクエスト→レスポンス部分 ---
         AF.request(url, method: .get, parameters: parameters)
+            .responseJSON { jsonResponse in
+                // JSONレスポンスをデバッグ出力
+                if let json = jsonResponse.value {
+                    print("JSON Response:", json)
+                }
+            }
             .responseDecodable(of: WeatherInfo.self) { response in
                 switch response.result {
                     
@@ -49,6 +55,14 @@ class WeatherViewModel: ObservableObject {
                     
                     // --- ロケーション確認用 ---
                     print("LOCATION:", data.location.name)
+                    
+                    // --- 月の満ち欠け情報確認用 ---
+                    if let firstDay = data.forecast.forecastsDay.first {
+                        print("Astro available:", firstDay.astro != nil)
+                        if let astro = firstDay.astro {
+                            print("Moon Phase:", astro.moonPhase)
+                        }
+                    }
                     
                     // --- 通信失敗時 ---
                 case .failure(let err):

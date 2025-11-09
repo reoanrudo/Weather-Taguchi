@@ -48,6 +48,7 @@ struct Forecast: Codable {
 struct ForecastDay: Codable, Hashable {
     let date: String
     let day: DailyForecast
+    let astro: Astro?
     let hour: [HourlyForecast]
     
     // 「2024-12-23」 →「2024年12月23日」の形式に変換する関数
@@ -72,6 +73,16 @@ struct DailyForecast: Codable, Hashable {
         case minTemp = "mintemp_c"
         case dailyChanceOfRain = "daily_chance_of_rain"
         case condition
+    }
+}
+
+// --- 月の満ち欠け情報を受け取る構造体 ---
+
+struct Astro: Codable, Hashable {
+    let moonPhase: String
+
+    enum CodingKeys: String, CodingKey {
+        case moonPhase = "moon_phase"
     }
 }
 
