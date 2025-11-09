@@ -8,23 +8,6 @@
 import SwiftUI
 import CoreLocation
 
-// MARK: - 月の満ち欠け名 → 画像名変換関数
-
-func moonAssetName(from phase: String) -> String {
-    switch phase.lowercased() {
-    case "new moon":            return "New Moon"
-    case "waxing crescent":     return "Waxing Crescent"
-    case "first quarter":       return "First Quarter"
-    case "waxing gibbous":      return "Waxing Gibbous"
-    case "full moon":           return "Full Moon"
-    case "waning gibbous":      return "Waning Gibbous"
-    case "last quarter",
-         "third quarter":       return "Last Quarter"
-    case "waning crescent":     return "Waning Crescent"
-    default:                    return "New Moon"
-    }
-}
-
 // MARK: - 日毎の天気ビュー
 
 struct DailyWeatherView: View {
@@ -77,8 +60,7 @@ struct DailyWeatherView: View {
                            
                             // --- 🌙 月の満ち欠け ---
                             if let moonPhase = forecastDay.astro?.moonPhase {
-                                let phaseName = moonAssetName(from: moonPhase)
-                                Image(phaseName)
+                                Image(moonPhase.capitalized)
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 30, height: 30)
